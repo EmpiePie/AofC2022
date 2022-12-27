@@ -34,7 +34,6 @@ public class Main {
         }
 
         int playSum = newList.stream().mapToInt(Integer::intValue).sum();
-        System.out.println(playSum);
 
 
         List<Integer> newElfList = new ArrayList<>();
@@ -59,7 +58,6 @@ public class Main {
         for (int a = 0; a < newList.size(); a++) {
 
             if ((newList.get(a) == 2 && newElfList.get(a) == 1) || (newList.get(a) == 3 && newElfList.get(a) == 2) || (newList.get(a) == 1 && newElfList.get(a) == 3))
-                /*((newList.get(a) > newElfList.get(a)) || (newList.get(a) == 1 && newElfList.get(a) == 3))*/
                 {
                 winSum += 6;
             }
@@ -74,14 +72,55 @@ public class Main {
             }
         }
 
-        System.out.println(winSum);
-
         System.out.println(playSum + winSum);
+
+        List<Integer> updateList = new ArrayList<>();
+
+
+        for (int b = 0; b < newList.size(); b++) {
+
+            if ((newElfList.get(b) == 1 && newList.get(b) == 1) || (newElfList.get(b) == 2 && newList.get(b) == 3) || (newElfList.get(b) == 3 && newList.get(b) == 2)) {
+                updateList.add(3);
+            }
+
+            else if ((newElfList.get(b) == 1 && newList.get(b) == 2) || (newElfList.get(b) == 2 && newList.get(b) == 1) || (newElfList.get(b) == 3 && newList.get(b) == 3)) {
+                updateList.add(1);
+            }
+
+            else if ((newElfList.get(b) == 1 && newList.get(b) == 3) || (newElfList.get(b) == 2 && newList.get(b) == 2) || (newElfList.get(b) == 3 && newList.get(b) == 1))  {
+                updateList.add(2);
+            }
+        }
+
+        int updatePlaySum = updateList.stream().mapToInt(Integer::intValue).sum();
+
+        int updateWinSum = 0;
+
+        for (int a = 0; a < updateList.size(); a++) {
+
+            if ((updateList.get(a) == 2 && newElfList.get(a) == 1) || (updateList.get(a) == 3 && newElfList.get(a) == 2) || (updateList.get(a) == 1 && newElfList.get(a) == 3))
+            {
+                updateWinSum += 6;
+            }
+
+            else if (updateList.get(a) == newElfList.get(a)) {
+
+                updateWinSum += 3;
+            }
+
+            else {
+                updateWinSum += 0;
+            }
+        }
+
+        System.out.println(updatePlaySum + updateWinSum);
 
     }
 
 }
 
+// X = LOSE Y = DRAW Z = WIN
+// 1 = LOSE 2 = DRAW 3 = WIN
 
 // A = ROCK B = PAPER C = SCISSORS
 // X = ROCK Y = PAPER Z = SCISSORS
