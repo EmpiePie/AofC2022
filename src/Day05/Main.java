@@ -60,11 +60,18 @@ public class Main {
 
             int tempFromCopy;
 
-            for (int i = tempFrom.size(); i > (tempFrom.size()- orders[0]) ; i--) {
+            for (int i = tempFrom.size() - orders[0]; i < tempFrom.size(); i++) {
 
-                tempTo.add(tempFrom.get(i -1));
+                tempTo.add(tempFrom.get(i));
 
             }
+
+
+//            for (int i = tempFrom.size(); i > (tempFrom.size()- orders[0]) ; i--) {
+//
+//                tempTo.add(tempFrom.get(i -1));
+//
+//            }
 
             groups.put(orders[2], tempTo);
 
@@ -78,8 +85,6 @@ public class Main {
             }
 
             groups.put(orders[1], tempFrom);
-
-            System.out.println(groups);
 
         }
 
