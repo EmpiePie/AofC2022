@@ -27,6 +27,52 @@ public class Main {
 
         }
 
+
+        int visibleTrees = 0;
+
+        visibleTrees += rows.get(1).length * 2;
+
+        for (int j = 2; j < rows.size(); j++) {
+
+            int[] temp = rows.get(j);
+            int savePoint = temp[0];
+
+            for (int i = 0; i < temp.length -2; i++) {
+
+                if (temp[i + 1] > savePoint) {
+
+                    savePoint = temp[i + 1];
+
+                    temp[i + 1] = -1;
+
+                    visibleTrees++;
+
+                }
+            }
+            rows.put(j, temp);
+        }
+
+
+        for (int j = 2; j < rows.size() -1; j++) {
+
+            int[] temp = rows.get(j);
+            int savePoint = temp[temp.length - 1];
+
+            for (int i = temp.length - 1; i > 1; i--) {
+
+                if (temp[i - 1] > savePoint && temp[i - 1] > 0){
+
+                    savePoint = temp[i - 1];
+
+                    temp[i - 1] = -1;
+
+                    visibleTrees++;
+                }
+
+            }
+            rows.put(j, temp);
+        }
+
         HashMap<Integer, List<Integer>> columns = new HashMap<>();
 
 
@@ -36,57 +82,60 @@ public class Main {
 
             for (int j = 0; j < rows.size(); j++) {
 
-                int[] temp1 = rows.get(j + 1);
+                int[] temp = rows.get(j + 1);
 
-                a.add(temp1[i]);
+                a.add(temp[i]);
 
             }
 
             columns.put(i + 1, a);
         }
 
+        for (int j = 2; j < columns.size(); j++) {
 
-        int visibleTrees = 0;
+            List<Integer> temp = columns.get(j);
+            int savePoint = temp.get(0);
 
-        visibleTrees += rows.get(1).length;
-        visibleTrees += rows.get(rows.size()).length;
+            for (int i = 0; i < temp.size() - 2; i++) {
 
-        for (int i = 2; i < rows.size(); i++) {
+                if (temp.get(i + 1) > savePoint && temp.get(i + 1) > 0) {
 
-            visibleTrees += 2;
+                    savePoint = temp.get(i + 1);
 
-        }
-
-        for (int j = 2; j < rows.size() -1; j++) {
-
-            int[] temp2 = rows.get(j);
-
-            for (int i = 1; i < rows.get(i).length; i++) {
-
-                if (temp2[i] > temp2[i - 1]) {
+                    temp.set(i + 1, -1);
 
                     visibleTrees++;
                 }
 
             }
+
+            columns.put(j, temp);
         }
 
-        for (int j = 2; j < rows.size() -1; j++) {
+        for (int j = 2; j < columns.size() -1; j++) {
 
-            int[] temp2 = rows.get(j);
+            List<Integer> temp = columns.get(j);
 
-            for (int i = temp2.length - 1; i > 0; i--) {
+            int savePoint = temp.get(temp.size() - 1);
 
-                if (temp2[i - 1] > temp2[i]) {
+            for (int i = temp.size() - 1; i > 0; i--) {
+
+                if (temp.get(i - 1) > savePoint && temp.get(i - 1) > 0) {
+
+                    savePoint = temp.get(i - 1);
+
+                    temp.set(i - 1, -1);
 
                     visibleTrees++;
                 }
 
             }
+            columns.put(j, temp);
         }
 
-        System.out.println(visibleTrees);
+        visibleTrees += (columns.size() - 2) * 2;
 
+       System.out.println(visibleTrees);
     }
 
     public static int[] rowConvert(String str) {
