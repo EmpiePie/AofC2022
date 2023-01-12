@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,125 +24,149 @@ public class Main {
 
             int[] temp = rowConvert(list[i]);
 
-            rows.put(i + 1, temp);
+            rows.put(i, temp);
 
+        }
+
+        System.out.println(Arrays.toString(rows.get(3)));
+
+        int[][] grid = new int[rows.size()][rows.get(1).length ];
+        char[][] checkGrid = new char[rows.size()][rows.get(1).length ];
+
+        for (int i = 0; i < rows.size(); i++) {
+
+            int[] temp = rows.get(i);
+
+            for (int j = 0; j < temp.length; j++) {
+
+                grid[i][j] = temp[j];
+
+            }
+
+        }
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+
+            System.out.println();
         }
 
 
         int visibleTrees = 0;
 
-        visibleTrees += rows.get(1).length * 2;
+        visibleTrees += grid.length * 2;
+        visibleTrees += (grid[0].length -2) * 2;
 
-        for (int j = 2; j < rows.size(); j++) {
 
-            int[] temp = rows.get(j);
-            int savePoint = temp[0];
 
-            for (int i = 0; i < temp.length -2; i++) {
+        for (int i = 1; i < grid.length -1; i++) {
 
-                if (temp[i + 1] > savePoint) {
+            int savePoint = grid[i][0];
 
-                    savePoint = temp[i + 1];
+            for (int j = 1; j < grid[i].length -1; j++) {
 
-                    temp[i + 1] = -1;
+                if (grid[i][j] > savePoint) {
+
+                    checkGrid[i][j] = 'A';
+
+                    savePoint = grid[i][j];
+
+                    visibleTrees++;
+
+
+                }
+            }
+        }
+
+        for (int i = 1; i < grid.length -1; i++) {
+
+            int savePoint = grid[i][grid[i].length - 1];
+
+            for (int j = grid[i].length -1; j > 0; j--) {
+
+                if (grid[i][j] > savePoint  && checkGrid[i][j] != 'A') {
+
+                    checkGrid[i][j] = 'A';
+
+                    savePoint = grid[i][j];
 
                     visibleTrees++;
 
                 }
+
+                else if(grid[i][j] > savePoint  && checkGrid[i][j] == 'A') {
+
+                    savePoint = grid[i][j];
+                }
             }
-            rows.put(j, temp);
         }
 
+        for (int i = 1; i < grid[0].length -1; i++) {
 
-        for (int j = 2; j < rows.size() -1; j++) {
+            int savePoint = grid[0][i];
 
-            int[] temp = rows.get(j);
-            int savePoint = temp[temp.length - 1];
+            for (int j = 1; j < grid.length -1; j++) {
 
-            for (int i = temp.length - 1; i > 1; i--) {
+                if (grid[j][i] > savePoint && checkGrid[j][i] != 'A') {
 
-                if (temp[i - 1] > savePoint && temp[i - 1] > 0){
+                    checkGrid[j][i] = 'A';
 
-                    savePoint = temp[i - 1];
-
-                    temp[i - 1] = -1;
+                    savePoint = grid[j][i];
 
                     visibleTrees++;
+
+
                 }
 
+                else if(grid[j][i] > savePoint && checkGrid[j][i] == 'A') {
+
+                    savePoint = grid[j][i];
+                }
             }
-            rows.put(j, temp);
         }
 
-        HashMap<Integer, List<Integer>> columns = new HashMap<>();
+        for (int i = 1; i < grid[0].length -1; i++) {
 
+            int savePoint = grid[grid.length -1][i];
 
-        for (int i = 0; i < rows.get(1).length; i++) {
+            for (int j = grid.length -1; j > 0; j--) {
 
-            List<Integer> a = new ArrayList<>();
+                if (grid[j][i] > savePoint && checkGrid[j][i] != 'A') {
 
-            for (int j = 0; j < rows.size(); j++) {
+                    checkGrid[j][i] = 'A';
 
-                int[] temp = rows.get(j + 1);
-
-                a.add(temp[i]);
-
-            }
-
-            columns.put(i + 1, a);
-        }
-
-        for (int j = 2; j < columns.size(); j++) {
-
-            List<Integer> temp = columns.get(j);
-            int savePoint = temp.get(0);
-
-            for (int i = 0; i < temp.size() - 2; i++) {
-
-                if (temp.get(i + 1) > savePoint && temp.get(i + 1) > 0) {
-
-                    savePoint = temp.get(i + 1);
-
-                    temp.set(i + 1, -1);
+                    savePoint = grid[j][i];
 
                     visibleTrees++;
+
                 }
 
-            }
+                else if(grid[j][i] > savePoint && checkGrid[j][i] == 'A') {
 
-            columns.put(j, temp);
-        }
-
-        for (int j = 2; j < columns.size() -1; j++) {
-
-            List<Integer> temp = columns.get(j);
-
-            int savePoint = temp.get(temp.size() - 1);
-
-            for (int i = temp.size() - 1; i > 0; i--) {
-
-                if (temp.get(i - 1) > savePoint && temp.get(i - 1) > 0) {
-
-                    savePoint = temp.get(i - 1);
-
-                    temp.set(i - 1, -1);
-
-                    visibleTrees++;
+                    savePoint = grid[j][i];
                 }
-
             }
-            columns.put(j, temp);
         }
 
-        visibleTrees += (columns.size() - 2) * 2;
+        System.out.println(visibleTrees);
 
-       System.out.println(visibleTrees);
+        for (int i = 0; i < checkGrid.length; i++) {
+            for (int j = 0; j < checkGrid.length; j++) {
+                System.out.print(checkGrid[i][j] + " ");
+            }
+
+            System.out.println();
+        }
+
     }
 
-    public static int[] rowConvert(String str) {
-        int[] numbers = new int[str.length()];
 
-        for(int i = 0; i < str.length(); i++) {
+    public static int[] rowConvert(String str) {
+        int[] numbers = new int[str.length() -1];
+
+        for(int i = 0; i < str.length() -1; i++) {
             numbers[i] = str.charAt(i) - '0';
         }
         return numbers;
