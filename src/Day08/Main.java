@@ -28,7 +28,6 @@ public class Main {
 
         }
 
-        System.out.println(Arrays.toString(rows.get(3)));
 
         int[][] grid = new int[rows.size()][rows.get(1).length ];
         char[][] checkGrid = new char[rows.size()][rows.get(1).length ];
@@ -45,13 +44,13 @@ public class Main {
 
         }
 
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
-                System.out.print(grid[i][j] + " ");
-            }
-
-            System.out.println();
-        }
+//        for (int i = 0; i < grid.length; i++) {
+//            for (int j = 0; j < grid.length; j++) {
+//                System.out.print(grid[i][j] + " ");
+//            }
+//
+//            System.out.println();
+//        }
 
 
         int visibleTrees = 0;
@@ -152,14 +151,14 @@ public class Main {
 
         System.out.println(visibleTrees);
 
-        for (int i = 0; i < checkGrid.length; i++) {
-            for (int j = 0; j < checkGrid.length; j++) {
-                System.out.print(checkGrid[i][j] + " ");
-            }
-
-            System.out.println();
-        }
-
+//        for (int i = 0; i < checkGrid.length; i++) {
+//            for (int j = 0; j < checkGrid.length; j++) {
+//                System.out.print(checkGrid[i][j] + " ");
+//            }
+//
+//            System.out.println();
+//        }
+//
     }
 
 
