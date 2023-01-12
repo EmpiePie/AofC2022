@@ -1,5 +1,7 @@
 package Day08;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Path filePath = Path.of("input8.txt");
+        Path filePath = Path.of("input8a.txt");
         String content = Files.readString(filePath, StandardCharsets.UTF_8);
 
         String[] list = content.split("\n");
@@ -159,7 +161,40 @@ public class Main {
 //            System.out.println();
 //        }
 //
+
+        // PART 02
+
+        System.out.println(checkNorth(grid, 3, 2));
+        System.out.println(checkSouth(grid, 3, 2));
+//        System.out.println(checkWest(grid, 3, 2));
+//        System.out.println(checkEast(grid, 3, 2));
+
+//        int highScore = 0;
+//
+//        for (int i = 0; i < grid.length; i++) {
+//
+//
+//            for (int j = 0; j < grid[i].length; j++) {
+//
+//                int score = 0;
+//
+//
+//                score = checkNorth(grid, i, j);
+//                score *= checkSouth(grid, i, j);
+//                score *= checkWest(grid, i, j);
+//                score *= checkEast(grid, i, j);
+//
+//                if (score > highScore) {
+//
+//                    highScore = score;
+//                }
+//            }
+//        }
+//
+//        System.out.println(highScore);
+//
     }
+
 
 
     public static int[] rowConvert(String str) {
@@ -169,5 +204,155 @@ public class Main {
             numbers[i] = str.charAt(i) - '0';
         }
         return numbers;
+    }
+
+    public static int checkNorth (int[][] treeGrid, int treeLocationX, int treeLocationY) {
+
+
+        if (treeLocationX == 0) {
+
+            return 0;
+        }
+
+        else {
+
+            int viewDistance = 0;
+            int treeToCheck = treeLocationX - 1;
+
+            while (treeGrid[treeLocationX][treeLocationY] > treeGrid[treeToCheck][treeLocationY]) {
+
+                 if (treeToCheck < 0) {
+
+                    break;
+                }
+
+                viewDistance++;
+                treeToCheck--;
+
+                if (treeGrid[treeLocationX][treeLocationY] <= treeGrid[treeToCheck][treeLocationY]) {
+
+                    viewDistance++;
+
+                    break;
+                }
+
+            }
+
+            return viewDistance;
+        }
+
+    }
+
+    public static int checkSouth (int[][] treeGrid, int treeLocationX, int treeLocationY) {
+
+
+        if (treeLocationX == treeGrid.length -1) {
+
+            return 0;
+
+        }
+
+        else {
+
+            int viewDistance = 0;
+            int treeToCheck = treeLocationX + 1;
+
+            while (treeGrid[treeLocationX][treeLocationY] > treeGrid[treeToCheck][treeLocationY]) {
+
+                if (treeToCheck > treeGrid.length - 1) {
+
+                    break;
+                }
+
+                viewDistance++;
+                treeToCheck++;
+
+                if (treeGrid[treeLocationX][treeLocationY] <= treeGrid[treeToCheck][treeLocationY]) {
+
+                    viewDistance++;
+
+                    break;
+                }
+
+            }
+
+            return viewDistance;
+        }
+
+    }
+
+    public static int checkWest (int[][] treeGrid, int treeLocationX, int treeLocationY) {
+
+
+        if (treeLocationY == 0) {
+
+            return 0;
+        }
+
+        else {
+
+            int viewDistance = 0;
+            int treeToCheck = treeLocationY - 1;
+
+            while (treeGrid[treeLocationX][treeLocationY] > treeGrid[treeLocationX][treeToCheck]) {
+
+                if (treeToCheck < 0) {
+
+                    break;
+                }
+
+                viewDistance++;
+                treeToCheck--;
+
+                if (treeGrid[treeLocationX][treeLocationY] <= treeGrid[treeLocationX][treeToCheck]) {
+
+                    viewDistance++;
+
+                    break;
+                }
+
+            }
+
+
+            return viewDistance;
+        }
+    }
+
+    public static int checkEast (int[][] treeGrid, int treeLocationX, int treeLocationY) {
+
+
+        if (treeLocationY == treeGrid.length -1) {
+
+            return 0;
+        }
+
+        else {
+
+            int viewDistance = 0;
+            int treeToCheck = treeLocationY + 1;
+
+            while (treeGrid[treeLocationX][treeLocationY] > treeGrid[treeLocationX][treeToCheck]) {
+
+                if (treeToCheck > treeGrid[0].length -1) {
+
+                    break;
+                }
+
+                viewDistance++;
+                treeToCheck++;
+
+                if (treeGrid[treeLocationX][treeLocationY] <= treeGrid[treeLocationX][treeToCheck]) {
+
+                    viewDistance++;
+
+                    break;
+                }
+
+            }
+
+
+            return viewDistance;
+        }
+
     }
 }
